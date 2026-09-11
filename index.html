@@ -758,6 +758,26 @@
     color: var(--rust);
   }
 
+  .back-btn {
+    background: none;
+    border: none;
+    padding: 4px 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--amber);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .back-btn:hover {
+    text-decoration: underline;
+  }
+
+  #profileHeader h1 {
+    max-width: none;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .spinner { animation: none; border-top-color: var(--rust); }
   }
@@ -855,7 +875,7 @@
 </head>
 <body>
 <div class="wrap">
-  <header>
+  <header id="homeHeader">
     <div class="header-top">
       <div class="kicker" data-i18n="kicker">Career Decoder</div>
       <div class="lang-toggle" id="langToggle">
@@ -867,43 +887,62 @@
     <p class="sub" data-i18n="subhead">Paste a job posting or tell us what you're into — get a simple guide to classes and skills to start now.</p>
   </header>
 
-  <div class="tab-container" id="tabContainer">
-    <div class="tab-nav" role="tablist">
-      <button class="tab-btn active" type="button" data-tab="posting" role="tab" aria-selected="true" aria-controls="postingPanel" data-i18n="tabPosting">I have a job posting</button>
-      <button class="tab-btn" type="button" data-tab="discovery" role="tab" aria-selected="false" aria-controls="discoveryPanel" data-i18n="tabDiscovery">Not sure what to search</button>
-    </div>
-
-    <div class="panel" id="postingPanel" role="tabpanel">
-      <label for="jobInput" data-i18n="postingLabel">Job description</label>
-      <textarea id="jobInput" data-i18n-placeholder="postingPlaceholder" placeholder="Paste the full job posting here — the more detail, the better the guidance."></textarea>
-      <div class="char-count" id="charCount">0 / 4,000 characters</div>
-      <div class="row">
-        <div class="example-links">
-          <span class="example-links-label" data-i18n="tryExample">Try an example:</span>
-          <div class="example-chips">
-            <button type="button" data-example="vet" data-i18n="exampleVet">Veterinary Technician</button>
-            <button type="button" data-example="ux" data-i18n="exampleUx">UX Designer</button>
-            <button type="button" data-example="elec" data-i18n="exampleElec">Electrician</button>
-          </div>
-        </div>
-        <button class="decode-btn" id="decodeBtn" data-i18n="decodeBtn">Decode this job</button>
+  <header id="profileHeader" hidden>
+    <div class="header-top">
+      <button type="button" class="back-btn" id="backBtn" data-i18n="backBtn">← Back</button>
+      <div class="lang-toggle">
+        <button type="button" class="lang-btn active" data-lang="en">EN</button>
+        <button type="button" class="lang-btn" data-lang="es">ES</button>
       </div>
-      <div class="status" id="status" hidden></div>
-      <div class="error" id="error" style="display:none;"></div>
+    </div>
+    <div class="kicker" data-i18n="exploring">Exploring</div>
+    <h1 id="profileRoleTitle"></h1>
+  </header>
+
+  <div id="homeMain">
+    <div class="tab-container" id="tabContainer">
+      <div class="tab-nav" role="tablist">
+        <button class="tab-btn active" type="button" data-tab="posting" role="tab" aria-selected="true" aria-controls="postingPanel" data-i18n="tabPosting">I have a job posting</button>
+        <button class="tab-btn" type="button" data-tab="discovery" role="tab" aria-selected="false" aria-controls="discoveryPanel" data-i18n="tabDiscovery">Not sure what to search</button>
+      </div>
+
+      <div class="panel" id="postingPanel" role="tabpanel">
+        <label for="jobInput" data-i18n="postingLabel">Job description</label>
+        <textarea id="jobInput" data-i18n-placeholder="postingPlaceholder" placeholder="Paste the full job posting here — the more detail, the better the guidance."></textarea>
+        <div class="char-count" id="charCount">0 / 4,000 characters</div>
+        <div class="row">
+          <div class="example-links">
+            <span class="example-links-label" data-i18n="tryExample">Try an example:</span>
+            <div class="example-chips">
+              <button type="button" data-example="vet" data-i18n="exampleVet">Veterinary Technician</button>
+              <button type="button" data-example="ux" data-i18n="exampleUx">UX Designer</button>
+              <button type="button" data-example="elec" data-i18n="exampleElec">Electrician</button>
+            </div>
+          </div>
+          <button class="decode-btn" id="decodeBtn" data-i18n="decodeBtn">Decode this job</button>
+        </div>
+        <div class="status" id="status" hidden></div>
+        <div class="error" id="error" style="display:none;"></div>
+      </div>
+
+      <div class="panel discovery-panel" id="discoveryPanel" role="tabpanel" hidden>
+        <label for="interestsInput" data-i18n="discoveryLabel">Not sure what job to look up?</label>
+        <p class="discovery-hint" data-i18n="discoveryHint">Tell us what you're into — subjects, hobbies, anything — and we'll suggest some real careers to explore.</p>
+        <textarea id="interestsInput" data-i18n-placeholder="discoveryPlaceholder" placeholder="e.g. I like video games, drawing, and helping my friends solve problems"></textarea>
+        <button class="suggest-btn" id="suggestBtn" data-i18n="suggestBtn">Suggest careers for me</button>
+        <div class="error" id="suggestError" style="display:none;"></div>
+      </div>
     </div>
 
-    <div class="panel discovery-panel" id="discoveryPanel" role="tabpanel" hidden>
-      <label for="interestsInput" data-i18n="discoveryLabel">Not sure what job to look up?</label>
-      <p class="discovery-hint" data-i18n="discoveryHint">Tell us what you're into — subjects, hobbies, anything — and we'll suggest some real careers to explore.</p>
-      <textarea id="interestsInput" data-i18n-placeholder="discoveryPlaceholder" placeholder="e.g. I like video games, drawing, and helping my friends solve problems"></textarea>
-      <button class="suggest-btn" id="suggestBtn" data-i18n="suggestBtn">Suggest careers for me</button>
-      <div class="error" id="suggestError" style="display:none;"></div>
-    </div>
+    <div class="results" id="suggestionsResults"></div>
+
+    <div class="results" id="results"></div>
   </div>
 
-  <div class="results" id="suggestionsResults"></div>
-
-  <div class="results" id="results"></div>
+  <div id="profileMain" hidden>
+    <div class="error" id="profileError" style="display:none;"></div>
+    <div class="results" id="profileResults"></div>
+  </div>
 
   <footer data-i18n="footer">
     Responses are AI-generated and meant as a starting point for exploring careers, not professional guidance.
@@ -956,6 +995,7 @@ const I18N = {
     suggestBtn: 'Suggest careers for me',
     footer: 'Responses are AI-generated and meant as a starting point for exploring careers, not professional guidance.',
     cancel: 'Cancel',
+    backBtn: '← Back',
     toTop: 'Scroll back to top',
     charCount: (len, max) => `${len.toLocaleString()} / ${max.toLocaleString()} characters`,
     charCountOver: (len, max) => `${len.toLocaleString()} / ${max.toLocaleString()} characters — trim this down so the answer doesn't get cut off`,
@@ -1016,6 +1056,7 @@ const I18N = {
     suggestBtn: 'Sugiéreme carreras',
     footer: 'Las respuestas son generadas por IA y sirven como punto de partida para explorar carreras, no como asesoría profesional.',
     cancel: 'Cancelar',
+    backBtn: '← Volver',
     toTop: 'Volver arriba',
     charCount: (len, max) => `${len.toLocaleString()} / ${max.toLocaleString()} caracteres`,
     charCountOver: (len, max) => `${len.toLocaleString()} / ${max.toLocaleString()} caracteres — recorta el texto para que la respuesta no se corte`,
@@ -1082,11 +1123,14 @@ function setLanguage(lang) {
   });
   applyStaticTranslations();
   updateCharCount();
-  if (typeof lastResultsData !== 'undefined' && lastResultsData) {
-    renderResults(lastResultsData);
+  if (lastResultsData) {
+    renderResults(lastResultsData, resultsEl);
   }
-  if (typeof lastSuggestions !== 'undefined' && lastSuggestions) {
+  if (lastSuggestions) {
     renderSuggestions(lastSuggestions);
+  }
+  if (lastProfileData) {
+    renderResults(lastProfileData, profileResultsEl);
   }
 }
 
@@ -1140,10 +1184,19 @@ const tabContainerEl = document.getElementById('tabContainer');
 const postingPanelEl = document.getElementById('postingPanel');
 const discoveryPanelEl = document.getElementById('discoveryPanel');
 const tabBtns = document.querySelectorAll('.tab-btn');
+const homeHeaderEl = document.getElementById('homeHeader');
+const profileHeaderEl = document.getElementById('profileHeader');
+const homeMainEl = document.getElementById('homeMain');
+const profileMainEl = document.getElementById('profileMain');
+const profileResultsEl = document.getElementById('profileResults');
+const profileErrorEl = document.getElementById('profileError');
+const profileRoleTitleEl = document.getElementById('profileRoleTitle');
+const backBtn = document.getElementById('backBtn');
 let requestId = 0;
-let currentExploreLabel = null;
 let lastResultsData = null;
 let lastSuggestions = null;
+let lastProfileData = null;
+let currentProfileRole = null;
 
 function placeResultsAfter(anchorEl) {
   anchorEl.insertAdjacentElement('afterend', resultsEl);
@@ -1256,19 +1309,23 @@ function sortByEffort(actions) {
   });
 }
 
-function renderResults(data) {
-  lastResultsData = data;
-  resultsEl.innerHTML = '';
+function renderResults(data, targetEl) {
+  if (targetEl === profileResultsEl) {
+    lastProfileData = data;
+  } else {
+    lastResultsData = data;
+  }
+  targetEl.innerHTML = '';
 
   const intro = document.createElement('p');
   intro.className = 'results-intro';
   intro.textContent = t('resultsIntro');
-  resultsEl.appendChild(intro);
+  targetEl.appendChild(intro);
 
   const tldr = document.createElement('div');
   tldr.className = 'result-card tldr';
   tldr.innerHTML = `<p>${escapeHtml(data.tldr)}</p>`;
-  resultsEl.appendChild(tldr);
+  targetEl.appendChild(tldr);
 
   const summary = document.createElement('div');
   summary.className = 'result-card plain-summary';
@@ -1288,7 +1345,7 @@ function renderResults(data) {
         <div class="facet-text">${escapeHtml(data.plainSummary.realRequirement)}</div>
       </div>
     </div>`;
-  resultsEl.appendChild(summary);
+  targetEl.appendChild(summary);
 
   const classes = document.createElement('div');
   classes.className = 'result-card';
@@ -1299,7 +1356,7 @@ function renderResults(data) {
         <div class="item-why">${escapeHtml(c.why)}</div>
       </div>
     `).join('');
-  resultsEl.appendChild(classes);
+  targetEl.appendChild(classes);
 
   const startHere = document.createElement('div');
   startHere.className = 'result-card start-here';
@@ -1308,7 +1365,7 @@ function renderResults(data) {
     <p class="start-here-action">${escapeHtml(data.startHere.action)}</p>
     <p class="start-here-why">${escapeHtml(data.startHere.why)}</p>
   `;
-  resultsEl.appendChild(startHere);
+  targetEl.appendChild(startHere);
 
   const skills = document.createElement('div');
   skills.className = 'result-card';
@@ -1327,7 +1384,7 @@ function renderResults(data) {
         </div>
       </div>
     `).join('');
-  resultsEl.appendChild(skills);
+  targetEl.appendChild(skills);
 
   const related = document.createElement('div');
   related.className = 'result-card';
@@ -1339,12 +1396,12 @@ function renderResults(data) {
         <button class="explore-btn" type="button" data-role-index="${i}">${escapeHtml(t('exploreBtn'))}</button>
       </div>
     `).join('');
-  resultsEl.appendChild(related);
+  targetEl.appendChild(related);
 
   related.querySelectorAll('.explore-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const role = data.relatedRoles[Number(btn.dataset.roleIndex)].role;
-      exploreRole(role);
+      navigateToRole(role);
     });
   });
 }
@@ -1419,9 +1476,9 @@ async function callClaude(systemPrompt, userContent, maxTokens, onRetry) {
   }
 }
 
-async function runDecode(systemPrompt, userContent, activeButtons, exploreLabel = null) {
-  errorEl.style.display = 'none';
-  resultsEl.innerHTML = '';
+async function runDecode(systemPrompt, userContent, activeButtons, targetEl, errTargetEl, onSuccess, scrollToTop = false) {
+  errTargetEl.style.display = 'none';
+  targetEl.innerHTML = '';
   activeButtons.forEach(b => b.disabled = true);
   showOverlay('decode');
 
@@ -1442,23 +1499,21 @@ async function runDecode(systemPrompt, userContent, activeButtons, exploreLabel 
     if (myRequestId !== requestId) return; // cancelled — ignore this result
 
     if (parsed.refusal) {
-      errorEl.textContent = parsed.message || t('errRefusalDecode');
-      errorEl.style.display = 'block';
+      errTargetEl.textContent = parsed.message || t('errRefusalDecode');
+      errTargetEl.style.display = 'block';
       hideOverlay();
       activeButtons.forEach(b => b.disabled = false);
       return;
     }
 
-    renderResults(parsed);
+    renderResults(parsed, targetEl);
+    if (onSuccess) onSuccess(parsed);
 
-    currentExploreLabel = exploreLabel;
-    if (exploreLabel) {
-      explorePillRoleEl.textContent = exploreLabel;
+    if (scrollToTop) {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
     } else {
-      explorePillEl.classList.remove('visible');
+      targetEl.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
     }
-
-    resultsEl.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
     hideOverlay();
     activeButtons.forEach(b => b.disabled = false);
   } catch (err) {
@@ -1467,14 +1522,14 @@ async function runDecode(systemPrompt, userContent, activeButtons, exploreLabel 
     console.error(err);
     let wasOverloaded = false;
     if (err.message === 'TRUNCATED') {
-      errorEl.textContent = t('errTruncated');
+      errTargetEl.textContent = t('errTruncated');
     } else if (err.message === 'OVERLOADED') {
       wasOverloaded = true;
-      errorEl.textContent = t('errOverloaded');
+      errTargetEl.textContent = t('errOverloaded');
     } else {
-      errorEl.textContent = t('errGenericDecode');
+      errTargetEl.textContent = t('errGenericDecode');
     }
-    errorEl.style.display = 'block';
+    errTargetEl.style.display = 'block';
     hideOverlay();
 
     if (wasOverloaded) {
@@ -1513,13 +1568,35 @@ ${DECODE_SCHEMA}
 
 ${REFUSAL_INSTRUCTIONS}${langInstr ? '\n\nReminder: every text value in your response must be in Spanish, per the instruction above, even though this job posting is written in English.' : ''}`;
 
-  runDecode(systemPrompt, jobText, [decodeBtn, suggestBtn]);
+  runDecode(systemPrompt, jobText, [decodeBtn, suggestBtn], resultsEl, errorEl);
 }
 
-function exploreRole(roleTitle, anchorEl = null) {
-  if (anchorEl) {
-    placeResultsAfter(anchorEl);
-  }
+function getRoleFromLocation() {
+  return new URLSearchParams(location.search).get('role');
+}
+
+function showHome() {
+  profileHeaderEl.hidden = true;
+  profileMainEl.hidden = true;
+  homeHeaderEl.hidden = false;
+  homeMainEl.hidden = false;
+  explorePillEl.classList.remove('visible');
+  document.title = 'Career Decoder';
+}
+
+function showProfilePage(roleTitle) {
+  homeHeaderEl.hidden = true;
+  homeMainEl.hidden = true;
+  profileHeaderEl.hidden = false;
+  profileMainEl.hidden = false;
+  profileRoleTitleEl.textContent = roleTitle;
+  explorePillRoleEl.textContent = roleTitle;
+  document.title = `${roleTitle} — Career Decoder`;
+  window.scrollTo({ top: 0, behavior: 'auto' });
+}
+
+function runProfileDecode(roleTitle) {
+  currentProfileRole = roleTitle;
 
   const langInstr = languageInstruction();
   const systemPrompt = `${langInstr ? langInstr + '\n\n' : ''}You help teenagers (roughly ages 13-18) explore career paths. The student has NOT pasted a real job posting — they've only given you a job title. Using your general knowledge of what this role typically involves at a real employer, respond exactly as if you were summarizing a representative, realistic job posting for this title. Respond with ONLY a JSON object, no markdown fences, no preamble, in this exact shape:
@@ -1528,8 +1605,34 @@ ${DECODE_SCHEMA}
 
 ${REFUSAL_INSTRUCTIONS}${langInstr ? '\n\nReminder: every text value in your response must be in Spanish, per the instruction above.' : ''}`;
 
-  runDecode(systemPrompt, roleTitle, [decodeBtn, suggestBtn], roleTitle);
+  runDecode(systemPrompt, roleTitle, [], profileResultsEl, profileErrorEl, undefined, true);
 }
+
+function navigateToRole(roleTitle) {
+  const url = new URL(location.href);
+  url.searchParams.set('role', roleTitle);
+  history.pushState({ role: roleTitle }, '', url);
+  showProfilePage(roleTitle);
+  runProfileDecode(roleTitle);
+}
+
+backBtn.addEventListener('click', () => {
+  history.back();
+});
+
+window.addEventListener('popstate', () => {
+  const role = getRoleFromLocation();
+  if (role) {
+    showProfilePage(role);
+    if (lastProfileData && currentProfileRole === role) {
+      renderResults(lastProfileData, profileResultsEl);
+    } else {
+      runProfileDecode(role);
+    }
+  } else {
+    showHome();
+  }
+});
 
 function renderSuggestions(suggestions) {
   lastSuggestions = suggestions;
@@ -1550,7 +1653,7 @@ function renderSuggestions(suggestions) {
   card.querySelectorAll('.explore-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const role = suggestions[Number(btn.dataset.roleIndex)].role;
-      exploreRole(role, suggestionsResultsEl);
+      navigateToRole(role);
     });
   });
 }
@@ -1570,8 +1673,6 @@ async function getSuggestions() {
   updateCharCount();
   errorEl.style.display = 'none';
   resultsEl.innerHTML = '';
-  currentExploreLabel = null;
-  explorePillEl.classList.remove('visible');
   [decodeBtn, suggestBtn].forEach(b => b.disabled = true);
   showOverlay('suggest');
 
@@ -1649,21 +1750,27 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 window.addEventListener('scroll', () => {
   toTopBtn.classList.toggle('visible', window.scrollY > 400);
 
-  if (currentExploreLabel && resultsEl.children.length > 0) {
-    const pastResultsTop = resultsEl.getBoundingClientRect().top < 56;
-    explorePillEl.classList.toggle('visible', pastResultsTop);
+  if (!profileMainEl.hidden && profileResultsEl.children.length > 0) {
+    const pastHeaderBottom = profileHeaderEl.getBoundingClientRect().bottom < 0;
+    explorePillEl.classList.toggle('visible', pastHeaderBottom);
   } else {
     explorePillEl.classList.remove('visible');
   }
 });
 
 explorePillEl.addEventListener('click', () => {
-  resultsEl.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+  window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
 });
 
 toTopBtn.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
 });
+
+const initialRole = getRoleFromLocation();
+if (initialRole) {
+  showProfilePage(initialRole);
+  runProfileDecode(initialRole);
+}
 </script>
 </body>
 </html>
